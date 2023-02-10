@@ -83,6 +83,13 @@ fun GameScreen(
 				Text(stringResource(R.string.submit))
 			}
 		}
+
+		if (gameUiState.isGameOver) {
+			FinalScoreDialog(
+				onPlayAgain = { gameViewModel.resetGame() },
+				score = gameUiState.score
+			)
+		}
 	}
 }
 
@@ -164,6 +171,7 @@ fun GameLayout(
 @Composable
 private fun FinalScoreDialog(
 	onPlayAgain: () -> Unit,
+	score: Int,
 	modifier: Modifier = Modifier
 ) {
 	val activity = (LocalContext.current as Activity)
@@ -171,7 +179,7 @@ private fun FinalScoreDialog(
 	AlertDialog(
 		onDismissRequest = {},
 		title = { Text(stringResource(R.string.congratulations)) },
-		text = { Text(stringResource(R.string.you_scored, 0)) },
+		text = { Text(stringResource(R.string.you_scored, score)) },
 		modifier = modifier,
 		dismissButton = {
 			TextButton(
