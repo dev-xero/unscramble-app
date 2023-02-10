@@ -1,5 +1,8 @@
 package dev.xero.unscrambleapp.ui
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import dev.xero.unscrambleapp.data.allWords
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,6 +13,9 @@ import kotlinx.coroutines.flow.asStateFlow
 class GameViewModel: ViewModel() {
 	private val _uiState = MutableStateFlow(GameUiState())
 	val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
+	var userGuess by mutableStateOf("")
+		private set
+
 
 	private lateinit var currentWord: String
 	private var usedWords: MutableSet<String> = mutableSetOf()
@@ -31,6 +37,10 @@ class GameViewModel: ViewModel() {
 			usedWords.add(currentWord)
 			shuffleContentWord(currentWord)
 		}
+	}
+
+	fun updateUserGuess(guessedWord: String) {
+		userGuess = guessedWord
 	}
 
 	fun resetGame() {
